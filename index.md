@@ -142,7 +142,7 @@ sudo ip link set dev <interface-name> xdp object drop_packets.o verb
 
 Send some traffic to the interface from another node. You can use any other traffic generator to send traffic to the interface. Listen at interface node here XDP program was loaded. You should not be able to recieve any packets at the kernel. 
 
-Unlpad the program from the interface
+Unload the program from the interface
 ```
 sudo ip link set dev <interface-name> xdp off
 ```
