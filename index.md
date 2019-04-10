@@ -1,3 +1,9 @@
+## What is XDP
+Todo
+
+## What this page contains and does not contain
+Todo
+
 ## Setup
 
 The following contains the XDP development environment setup information for an Ubuntu machine.
@@ -68,3 +74,80 @@ make
 ```
 
 No tests should fail. Now your XDP development environment is ready!
+
+## First XDP Program
+The _hello world_ equivalent of an XDP program, is a program that just drops all packets. 
+
+We first start with writing a Makefile to build the code we write. This Makefile just makes sure required include files are accessible. 
+
+```markdown
+KDIR ?= /lib/modules/$(shell uname -r)/source
+CLANG ?= clang
+LLC ?= llc
+ARCH := $(subst x86_64,x86,$(shell arch))
+
+BIN := drop_packets.o
+CLANG_FLAGS = -I. -I$(KDIR)/arch/$(ARCH)/include \
+    -I$(KDIR)/arch/$(ARCH)/include/generated \
+    -I$(KDIR)/include \
+    -I$(KDIR)/arch/$(ARCH)/include/uapi \
+    -I$(KDIR)/arch/$(ARCH)/include/generated/uapi \
+    -I$(KDIR)/include/uapi \
+    -I$(KDIR)/include/generated/uapi \
+    -include $(KDIR)/include/linux/kconfig.h \
+    -I$(KDIR)/tools/testing/selftests/bpf/ \
+    -D__KERNEL__ -D__BPF_TRACING__ -Wno-unused-value -Wno-pointer-sign \
+    -D__TARGET_ARCH_$(ARCH) -Wno-compare-distinct-pointer-types \
+    -Wno-gnu-variable-sized-type-not-at-end \
+    -Wno-address-of-packed-member -Wno-tautological-compare \
+    -Wno-unknown-warning-option \
+    -O2 -emit-llvm
+
+all: $(BIN)
+
+drop_packets.o: drop_packets.c
+    $(CLANG) $(CLANG_FLAGS) -c $< -o - | \
+    $(LLC) -march=bpf -mcpu=$(CPU) -filetype=obj -o $@
+
+clean:
+    rm -f drop_packets.o
+```
+
+The XDP program that drops all packets is as follows _drop_pcakets.c_
+```markdown
+#define KBUILD_MODNAME "foo"
+#define asm_volatile_goto(x...)
+#include <uapi/linux/bpf.h>
+
+SEC("prog")
+int xdp_drop(struct xdp_md *ctx)
+{
+    return XDP_DROP;
+}
+
+char __license[] __section("license") = "GPL";
+```
+
+The first two _#define_ are to be defined and are workarounds for clang not being able to work with _asm_goto_ constructs. For this simple program, the section name in `SEC(" ")` has to be `prog` because clang looks for this section. In the later part of this page, user programs that compile and load kernel programs will be written in which case the section name need not be `prog`. the `xdp_drop` function, recieves the packet in `ctx` at the interface we load the XDP program to. The functions returns the value `XDP_DROP` forcing all packets at the interface to be dropped. The _license_ section is also necessary to access _GPL_ licensed BPF features. 
+
+Build the program
+```
+make
+```
+
+Load the program to an interface
+```
+sudo ip link set dev <interface-name> xdp object drop_packets.o verb
+```
+
+Send some traffic to the interface from another node. You can use any other traffic generator to send traffic to the interface. Listen at interface node here XDP program was loaded. You should not be able to recieve any packets at the kernel. 
+
+Unlpad the program from the interface
+```
+sudo ip link set dev <interface-name> xdp off
+```
+
+## TODO 
+### Using XDP maps
+### Modifying packets using XDP
+### Using XDP tail calls 
