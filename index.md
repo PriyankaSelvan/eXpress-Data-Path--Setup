@@ -1,3 +1,17 @@
+## Setup
+
+The following contains the XDP development environment setup information for an Ubuntu machine.
+
+#### Native XDP support
+Todo Punith
+
+#### Prerequisites
+First, certain packages need to be installed.
+```markdown
+`sudo apt-get install -y make gcc libssl-dev bc libelf-dev libcap-dev clang gcc-multilib llvm libncurses5-dev git pkg-config libmnl-dev bison flex graphviz git exuberant-ctags
+`
+```
+
 ## Welcome to GitHub Pages
 
 You can use the [editor on GitHub](https://github.com/PriyankaSelvan/eXpress-Data-Path-XDP---Setup-and-Usage/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
