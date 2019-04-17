@@ -1,8 +1,5 @@
-## What is XDP
-Todo
-
-## What this page contains and does not contain
-Todo
+## XDP
+Express Data Path is a programmable fast packet processor in the kernel. Details about XDP can be found [here](https://dl.acm.org/citation.cfm?id=3281443), and [here](https://developers.redhat.com/blog/2018/12/06/achieving-high-performance-low-latency-networking-with-xdp-part-1/). This article contains the steps to setup a development environment for XDP.  
 
 ## Setup
 
@@ -128,7 +125,7 @@ int xdp_drop(struct xdp_md *ctx)
 char __license[] __section("license") = "GPL";
 ```
 
-The first two _#define_ are to be defined and are workarounds for clang not being able to work with _asm_goto_ constructs. For this simple program, the section name in `SEC(" ")` has to be `prog` because clang looks for this section. In the later part of this page, user programs that compile and load kernel programs will be written in which case the section name need not be `prog`. the `xdp_drop` function, recieves the packet in `ctx` at the interface we load the XDP program to. The functions returns the value `XDP_DROP` forcing all packets at the interface to be dropped. The _license_ section is also necessary to access _GPL_ licensed BPF features. 
+The first two _#define_ are to be defined and are workarounds for clang not being able to work with _asm_goto_ constructs. __These two definitions must be done in all XDP programs__. For this simple program, the section name in `SEC(" ")` has to be `prog` because clang looks for this section. In the later part of this page, user programs that compile and load kernel programs will be written in which case the section name need not be `prog`. the `xdp_drop` function, recieves the packet in `ctx` at the interface we load the XDP program to. The functions returns the value `XDP_DROP` forcing all packets at the interface to be dropped. The _license_ section is also necessary to access _GPL_ licensed BPF features. 
 
 Build the program
 ```
@@ -140,7 +137,7 @@ Load the program to an interface
 sudo ip link set dev <interface-name> xdp object drop_packets.o verb
 ```
 
-Send some traffic to the interface from another node. You can use any other traffic generator to send traffic to the interface. Listen at interface node here XDP program was loaded. You should not be able to recieve any packets at the kernel. 
+Send some traffic to the interface from another node. You can use any other traffic generator to send traffic to the interface. Listen at interface node here XDP program was loaded. You should not be able to recieve any packets. 
 
 Unload the program from the interface
 ```
