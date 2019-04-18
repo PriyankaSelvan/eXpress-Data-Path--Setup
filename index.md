@@ -3,7 +3,7 @@ Express Data Path is a programmable fast packet processor in the kernel. Details
 
 ## Other Articles
 ### [Using XDP Maps]()
-### [Using xDP tail calls]()
+### [Using XDP tail calls]()
 ### [Modifying packets using XDP]()
 
 ## Setup
