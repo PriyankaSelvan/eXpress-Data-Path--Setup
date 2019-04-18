@@ -149,4 +149,30 @@ Unload the program from the interface
 sudo ip link set dev <interface-name> xdp off
 ```
 
+## Debugging XDP programs
+In order to print debugs from the kernel XDP program, _printk_ must be used. A standard way of using this in most XDP sample programs is defining a macro _bpf_debug_ as follows. 
+```
+#define bpf_debug(fmt, ...)                     \
+        ({                          \
+            char ____fmt[] = fmt;               \
+            bpf_trace_printk(____fmt, sizeof(____fmt),  \
+                     ##__VA_ARGS__);            \
+        })
+```
+
+This can be used like a formatted output statement anywhere in the kernel XDP program.
+```
+bpf_debug("XDP: Killroy was here! %d\n", 42);
+```
+
+In order to view these debugs as traffic arrives at the interface, the following steps need to be taken. 
+First, set the debug level to show all debugs. _7_ means all levels. 
+```
+sudo sh -c 'echo 7 > /proc/sys/kernel/printk'
+```
+Viewing the debugs. Needs to be run as root. Run `sudo su` before the following. 
+```
+tc exec bpf dbg
+```
+
 Setup and the first program is done. To experiment with other XDP features, you may take a look at the articles listed below. 
