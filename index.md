@@ -1,12 +1,17 @@
 ## XDP
 Express Data Path is a programmable fast packet processor in the kernel. Details about XDP can be found [here](https://dl.acm.org/citation.cfm?id=3281443), and [here](https://developers.redhat.com/blog/2018/12/06/achieving-high-performance-low-latency-networking-with-xdp-part-1/). This article contains the steps to setup a development environment for XDP.  
 
+## Other Articles
+### [Using XDP Maps]()
+### [Using xDP tail calls]()
+### [Modifying packets using XDP]()
+
 ## Setup
 
 The following contains the XDP development environment setup information for an Ubuntu machine.
 
 #### Native XDP support
-Todo Punith
+Native XDP driver support is required. The driver used in this setup is the Mellanox driver. 
 
 #### Prerequisites
 First, certain packages need to be installed.
@@ -26,7 +31,7 @@ cd net-next
 cp /boot/config-`uname -r`* .config
 ```
 
-Make sure that the following options in .config have the right values set.
+Make sure that the following options in _.config_ have the right values set.
 ```markdown
 CONFIG_CGROUP_BPF=y
 CONFIG_BPF=y
@@ -56,7 +61,7 @@ When the make completes, compile modules
 sudo make modules_install install
 ```
 
-I got an error `Error! Bad return status for module build on kernel: 5.0.0-rc5+ (x86_64)` at this stage. But, i went ahead and completed the rest of the steps. This did not cuse any problems for XDP development later.
+I got an error `Error! Bad return status for module build on kernel: 5.0.0-rc5+ (x86_64)` at this stage. But, i went ahead and completed the rest of the steps. This did not cause any problems for XDP development later.
 
 Reboot and select the newly built kernel at GRUB. 
 ```markdown
@@ -75,7 +80,7 @@ No tests should fail. Now your XDP development environment is ready!
 ## First XDP Program
 The _hello world_ equivalent of an XDP program, is a program that just drops all packets. 
 
-We first start with writing a Makefile to build the code we write. This Makefile just makes sure required include files are accessible. 
+We first start with writing a Makefile to build the kernel code we write. This Makefile just makes sure required header files are accessible. The Makefile compiles the code we write using _clang_. This is due to the fact that only _clang_ provides an option of specifying a _bpf_ target required for XDP. 
 
 ```markdown
 KDIR ?= /lib/modules/$(shell uname -r)/source
@@ -125,7 +130,7 @@ int xdp_drop(struct xdp_md *ctx)
 char __license[] __section("license") = "GPL";
 ```
 
-The first two _#define_ are to be defined and are workarounds for clang not being able to work with _asm_goto_ constructs. __These two definitions must be done in all XDP programs__. For this simple program, the section name in `SEC(" ")` has to be `prog` because clang looks for this section. In the later part of this page, user programs that compile and load kernel programs will be written in which case the section name need not be `prog`. the `xdp_drop` function, recieves the packet in `ctx` at the interface we load the XDP program to. The functions returns the value `XDP_DROP` forcing all packets at the interface to be dropped. The _license_ section is also necessary to access _GPL_ licensed BPF features. 
+The first two _#define_ are to be defined and are workarounds for clang not being able to work with _asm_goto_ constructs. __These two definitions must be done in all XDP kernel programs__. For this simple program, the section name in `SEC(" ")` has to be `prog` because _iproute2_ - the tool we use to load the program to the interface looks for this section. In other articles linked to this one, user programs that compile and load kernel programs will be written in which case the section name need not be `prog`. The `xdp_drop` function, recieves the packet in `ctx` at the interface we load the XDP program to. The functions returns the value `XDP_DROP` forcing all packets at the interface to be dropped. The _license_ section is also necessary to access _GPL_ licensed BPF features. 
 
 Build the program
 ```
@@ -144,7 +149,4 @@ Unload the program from the interface
 sudo ip link set dev <interface-name> xdp off
 ```
 
-## TODO 
-### Using XDP maps
-### Modifying packets using XDP
-### Using XDP tail calls 
+Setup and the first program is done. To experiment with other XDP features, you may take a look at the articles listed below. 
