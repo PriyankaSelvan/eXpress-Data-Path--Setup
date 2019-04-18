@@ -2,9 +2,8 @@
 Express Data Path is a programmable fast packet processor in the kernel. Details about XDP can be found [here](https://dl.acm.org/citation.cfm?id=3281443), and [here](https://developers.redhat.com/blog/2018/12/06/achieving-high-performance-low-latency-networking-with-xdp-part-1/). This article contains the steps to setup a development environment for XDP.  
 
 ## Other Articles
-### [Using XDP Maps]()
+### [Using XDP Maps](https://priyankaselvan.github.io/eXpress-Data-Path--Maps)
 ### [Using XDP tail calls]()
-### [Modifying packets using XDP]()
 
 ## Setup
 
