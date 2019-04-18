@@ -80,11 +80,11 @@ No tests should fail. Now your XDP development environment is ready!
 ## First XDP Program
 The _hello world_ equivalent of an XDP program, is a program that just drops all packets. 
 
-We first start with writing a Makefile to build the kernel code we write. This Makefile just makes sure required header files are accessible. The Makefile compiles the code we write using _clang_. This is due to the fact that only _clang_ provides an option of specifying a _bpf_ target required for XDP. 
+We first start with writing a Makefile to build the kernel code we write.  Makefile just makes sure required header files are accessible. The Makefile compiles the code we write using _clang_. This is due to the fact that only _clang_ provides an option of specifying a _bpf_ target required for XDP. 
 
 ```markdown
 KDIR ?= /lib/modules/$(shell uname -r)/source
-CLANG ?= clang
+CLANG ?= clangThis
 LLC ?= llc
 ARCH := $(subst x86_64,x86,$(shell arch))
 
