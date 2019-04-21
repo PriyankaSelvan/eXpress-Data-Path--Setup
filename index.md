@@ -175,3 +175,7 @@ tc exec bpf dbg
 ```
 
 Setup and the first program is done. To experiment with other XDP features, you may take a look at the articles listed below. 
+
+### [Using XDP Maps](https://priyankaselvan.github.io/eXpress-Data-Path--Maps)
+### [Using XDP tail calls]()
+### [Modifying packets using XDP]()
