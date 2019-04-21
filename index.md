@@ -3,7 +3,8 @@ Express Data Path is a programmable fast packet processor in the kernel. Details
 
 ## Other Articles
 ### [Using XDP Maps](https://priyankaselvan.github.io/eXpress-Data-Path--Maps)
-### [Using XDP tail calls]()
+### [Using XDP tail calls](https://priyankaselvan.github.io/eXpress-Data-Path--TailCalls)
+### [Modifying packets using xdp](https://priyankaselvan.github.io/eXpress-Data-Path--Modifying-Packets/)
 
 ## Setup
 
@@ -177,5 +178,5 @@ tc exec bpf dbg
 Setup and the first program is done. To experiment with other XDP features, you may take a look at the articles listed below. 
 
 ### [Using XDP Maps](https://priyankaselvan.github.io/eXpress-Data-Path--Maps)
-### [Using XDP tail calls]()
-### [Modifying packets using XDP]()
+### [Using XDP tail calls](https://priyankaselvan.github.io/eXpress-Data-Path--TailCalls)
+### [Modifying packets using xdp](https://priyankaselvan.github.io/eXpress-Data-Path--Modifying-Packets/)
