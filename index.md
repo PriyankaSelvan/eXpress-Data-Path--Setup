@@ -8,10 +8,10 @@ Express Data Path is a programmable fast packet processor in the kernel. Details
 
 ## Hardware
 
-An approximate list of drivers supporting XDP programs was found in the [iovisor/bcc](https://github.com/iovisor/bcc/blob/master/docs/kernel-versions.md#xdp) project. The experiments were conducted using Dual-port Mellanox ConnectX-4 25 GB NIC (PCIe v3.0, 8 lanes). This matches the suppriting driver Mellanox `mlx4` driver.
+An approximate list of drivers supporting XDP programs was found in the [iovisor/bcc](https://github.com/iovisor/bcc/blob/master/docs/kernel-versions.md#xdp) project. The machine used contained Dual-port Mellanox ConnectX-4 25 GB NIC (PCIe v3.0, 8 lanes). This matches the supporting driver Mellanox `mlx4` driver.
 
 
-To verify that the correct NIC exists check the PCIe connected hardware. Our test nodes provide 2 Mellanox NICs with 2 interfaces each. They will show up as 4 Ethernet controllers.
+To verify that the correct NIC exists check the PCIe connected hardware. The test nodes provide 2 Mellanox NICs with 2 interfaces each. They will show up as 4 Ethernet controllers. Other supporting drivers should work too.
 
 ```console
 variable@xdp-node:~$ lspci -v | grep -A 5 Mellanox
