@@ -6,9 +6,47 @@ Express Data Path is a programmable fast packet processor in the kernel. Details
 ### [Using XDP tail calls](https://priyankaselvan.github.io/eXpress-Data-Path--TailCalls)
 ### [Modifying packets using xdp](https://priyaselvan.github.io/eXpress-Data-Path--Packet-Inspection/)
 
+## Hardware
+
+An approximate list of drivers supporting XDP programs was found in the [iovisor/bcc](https://github.com/iovisor/bcc/blob/master/docs/kernel-versions.md#xdp) project. The machine used contained Dual-port Mellanox ConnectX-4 25 GB NIC (PCIe v3.0, 8 lanes). This matches the supporting driver Mellanox `mlx4` driver.
+
+
+To verify that the correct NIC exists check the PCIe connected hardware. The test nodes provide 2 Mellanox NICs with 2 interfaces each. They will show up as 4 Ethernet controllers. Other supporting drivers should work too.
+
+```console
+variable@xdp-node:~$ lspci -v | grep -A 5 Mellanox
+03:00.0 Ethernet controller: Mellanox Technologies MT27710 Family [ConnectX-4 Lx]
+	Subsystem: Hewlett Packard Enterprise MT27710 Family [ConnectX-4 Lx]
+	Physical Slot: 1
+	Flags: bus master, fast devsel, latency 0, IRQ 16, NUMA node 0
+	Memory at 94000000 (64-bit, prefetchable) [size=32M]
+	Capabilities: <access denied>
+--
+03:00.1 Ethernet controller: Mellanox Technologies MT27710 Family [ConnectX-4 Lx]
+	Subsystem: Hewlett Packard Enterprise MT27710 Family [ConnectX-4 Lx]
+	Physical Slot: 1
+	Flags: bus master, fast devsel, latency 0, IRQ 17, NUMA node 0
+	Memory at 96000000 (64-bit, prefetchable) [size=32M]
+	Capabilities: <access denied>
+--
+07:00.0 Ethernet controller: Mellanox Technologies MT27710 Family [ConnectX-4 Lx]
+	Subsystem: Hewlett Packard Enterprise MT27710 Family [ConnectX-4 Lx]
+	Flags: bus master, fast devsel, latency 0, IRQ 16, NUMA node 0
+	Memory at 98000000 (64-bit, prefetchable) [size=32M]
+	Capabilities: <access denied>
+	Kernel driver in use: mlx5_core
+--
+07:00.1 Ethernet controller: Mellanox Technologies MT27710 Family [ConnectX-4 Lx]
+	Subsystem: Hewlett Packard Enterprise MT27710 Family [ConnectX-4 Lx]
+	Flags: bus master, fast devsel, latency 0, IRQ 17, NUMA node 0
+	Memory at 9a000000 (64-bit, prefetchable) [size=32M]
+	Capabilities: <access denied>
+	Kernel driver in use: mlx5_core
+```
+
 ## Setup
 
-The following contains the XDP development environment setup information for an Ubuntu machine.
+The following contains the XDP development environment setup information for an Ubuntu 18.04 LTS machine.
 
 #### Native XDP support
 Native XDP driver support is required. The driver used in this setup is the Mellanox driver. 
