@@ -6,6 +6,7 @@ Express Data Path is a programmable fast packet processor in the kernel. Details
 ### [Using XDP Maps](https://priyankaselvan.github.io/eXpress-Data-Path--Maps)
 ### [Using XDP tail calls](https://priyankaselvan.github.io/eXpress-Data-Path--TailCalls)
 ### [Modifying packets using xdp](https://priyaselvan.github.io/eXpress-Data-Path--Packet-Inspection/)
+### [Cloudlab Setup for XDP experimentation](https://punithpatil.github.io/eXpress-Data-Path--Cloudlab-Setup/)
 
 ## Hardware - Native XDP support
 
@@ -216,6 +217,7 @@ Setup and the first program is done. To experiment with other XDP features, you 
 ### [Using XDP Maps](https://priyankaselvan.github.io/eXpress-Data-Path--Maps)
 ### [Using XDP tail calls](https://priyankaselvan.github.io/eXpress-Data-Path--TailCalls)
 ### [Modifying packets using xdp](https://priyaselvan.github.io/eXpress-Data-Path--Packet-Inspection/)
+### [Cloudlab Setup for XDP experimentation](https://punithpatil.github.io/eXpress-Data-Path--Cloudlab-Setup/)
 
 
 #### References
