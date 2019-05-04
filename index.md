@@ -1,3 +1,4 @@
+Written May 2019
 ## XDP
 Express Data Path is a programmable fast packet processor in the kernel. Details about XDP can be found [here](https://dl.acm.org/citation.cfm?id=3281443), and [here](https://developers.redhat.com/blog/2018/12/06/achieving-high-performance-low-latency-networking-with-xdp-part-1/). This article contains the steps to setup a development environment for XDP.  
 
@@ -6,12 +7,12 @@ Express Data Path is a programmable fast packet processor in the kernel. Details
 ### [Using XDP tail calls](https://priyankaselvan.github.io/eXpress-Data-Path--TailCalls)
 ### [Modifying packets using xdp](https://priyaselvan.github.io/eXpress-Data-Path--Packet-Inspection/)
 
-## Hardware
+## Hardware - Native XDP support
 
 An approximate list of drivers supporting XDP programs was found in the [iovisor/bcc](https://github.com/iovisor/bcc/blob/master/docs/kernel-versions.md#xdp) project. The machine used contained Dual-port Mellanox ConnectX-4 25 GB NIC (PCIe v3.0, 8 lanes). This matches the supporting driver Mellanox `mlx4` driver.
 
 
-To verify that the correct NIC exists check the PCIe connected hardware. The test nodes provide 2 Mellanox NICs with 2 interfaces each. They will show up as 4 Ethernet controllers. Other supporting drivers should work too.
+To verify that the correct NIC exists, PCIe connected hardware can be checked. Our setup provides 2 Mellanox NICs with 2 interfaces each. They will show up as 4 Ethernet controllers. Other supporting drivers should work too.
 
 ```console
 variable@xdp-node:~$ lspci -v | grep -A 5 Mellanox
@@ -47,9 +48,6 @@ variable@xdp-node:~$ lspci -v | grep -A 5 Mellanox
 ## Setup
 
 The following contains the XDP development environment setup information for an Ubuntu 18.04 LTS machine.
-
-#### Native XDP support
-Native XDP driver support is required. The driver used in this setup is the Mellanox driver. 
 
 #### Prerequisites
 First, certain packages need to be installed.
@@ -153,7 +151,7 @@ clean:
     rm -f drop_packets.o
 ```
 
-The XDP program that drops all packets is as follows _drop_pcakets.c_
+The XDP program that drops all packets is as follows _drop_packets.c_
 ```markdown
 #define KBUILD_MODNAME "foo"
 #define asm_volatile_goto(x...)
@@ -180,7 +178,7 @@ Load the program to an interface
 sudo ip link set dev <interface-name> xdp object drop_packets.o verb
 ```
 
-Send some traffic to the interface from another node. You can use any other traffic generator to send traffic to the interface. Listen at interface node here XDP program was loaded. You should not be able to recieve any packets. 
+Send some traffic to the interface from another node. You can use any other traffic generator to send traffic to the interface. Listen at interface node here XDP program was loaded. You should not be able to receive any packets. 
 
 Unload the program from the interface
 ```
@@ -217,4 +215,12 @@ Setup and the first program is done. To experiment with other XDP features, you 
 
 ### [Using XDP Maps](https://priyankaselvan.github.io/eXpress-Data-Path--Maps)
 ### [Using XDP tail calls](https://priyankaselvan.github.io/eXpress-Data-Path--TailCalls)
-### [Modifying packets using xdp](https://priyankaselvan.github.io/eXpress-Data-Path--Modifying-Packets/)
+### [Modifying packets using xdp](https://priyaselvan.github.io/eXpress-Data-Path--Packet-Inspection/)
+
+
+#### References
+[A walkthrough](https://netdevconf.org/2.1/slides/apr7/gospodarek-Netdev2.1-XDP-for-the-Rest-of-Us_Final.pdf)
+[Cilium XDP documentation](https://cilium.readthedocs.io/en/latest/bpf/#development-environment)
+[XDP maps example](https://www.linuxplumbersconf.org/event/2/contributions/71/attachments/17/9/presentation-lpc2018-xdp-tutorial.pdf)
+
+
