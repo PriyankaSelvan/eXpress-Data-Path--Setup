@@ -221,8 +221,8 @@ Setup and the first program is done. To experiment with other XDP features, you 
 
 
 #### References
-# [A walkthrough](https://netdevconf.org/2.1/slides/apr7/gospodarek-Netdev2.1-XDP-for-the-Rest-of-Us_Final.pdf)
-# [Cilium XDP documentation](https://cilium.readthedocs.io/en/latest/bpf/#development-environment)
-# [XDP maps example](https://www.linuxplumbersconf.org/event/2/contributions/71/attachments/17/9/presentation-lpc2018-xdp-tutorial.pdf)
+##### [A walkthrough](https://netdevconf.org/2.1/slides/apr7/gospodarek-Netdev2.1-XDP-for-the-Rest-of-Us_Final.pdf)
+##### [Cilium XDP documentation](https://cilium.readthedocs.io/en/latest/bpf/#development-environment)
+##### [XDP maps example](https://www.linuxplumbersconf.org/event/2/contributions/71/attachments/17/9/presentation-lpc2018-xdp-tutorial.pdf)
 
 
