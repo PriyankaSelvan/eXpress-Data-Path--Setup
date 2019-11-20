@@ -1,4 +1,4 @@
-Written May 2019
+Written May 2019, Updated November 2019
 ## XDP
 Express Data Path is a programmable fast packet processor in the kernel. Details about XDP can be found [here](https://dl.acm.org/citation.cfm?id=3281443), and [here](https://developers.redhat.com/blog/2018/12/06/achieving-high-performance-low-latency-networking-with-xdp-part-1/). This article contains the steps to setup a development environment for XDP.  
 
@@ -46,9 +46,13 @@ variable@xdp-node:~$ lspci -v | grep -A 5 Mellanox
 	Kernel driver in use: mlx5_core
 ```
 
+## Hardware - Without native XDP driver support
+
+XDP can be enabled on hardware whose decive drivers do not support XDP. With hardware support one can directly access a packet off the NIC. Otherwise we have to wait for the kernel to perform memory allocation for the packet and access is granted after that. The difference is in performance and the latter is slower because it has to traverse the kernel stack to a certain point. 
+
 ## Setup
 
-The following contains the XDP development environment setup information for an Ubuntu 18.04 LTS machine.
+The following contains the XDP development environment setup information for an Ubuntu 18.04 LTS machine. Note: With Ubuntu 18.04 LTS BPF support is provided out of the box. The flags enabled in the `.config` for BPF should already be present.
 
 #### Prerequisites
 First, certain packages need to be installed.
@@ -81,6 +85,12 @@ CONFIG_LWTUNNEL_BPF=y
 CONFIG_HAVE_EBPF_JIT=y
 CONFIG_BPF_EVENTS=y
 CONFIG_TEST_BPF=m
+```
+
+As of November, 2019 there is a new XDP flag that must be enabled to activate the `AF_XDP` socket. With the kernel version that was tested is `5.4.0-rc5+` from the `net-next` kernel source tree. Be sure to enable this flag in the `.config` as well 
+
+```markdown
+CONFIG_XDP_SOCKETS=y
 ```
 
 Build the configuration.
